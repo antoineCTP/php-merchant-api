@@ -1311,7 +1311,12 @@ class Be2bill_Api_DirectLinkClient
     protected function getURLs($path)
     {
         // Add path to each urls
-        return array_map(create_function('$elm', 'return $elm . "' . $path . '";'), $this->urls);
+        return array_map(
+            function($elm) use ($path) {
+                return $elm.$path;
+            },
+            $this->urls
+        );
     }
 
     // Internals
