@@ -1262,7 +1262,7 @@ class Be2bill_Api_DirectLinkClient
      */
     public function getDirectLinkUrls()
     {
-        return $this->getUrls($this->directLinkPath);
+        return $this->getURLs($this->directLinkPath);
     }
 
     /**

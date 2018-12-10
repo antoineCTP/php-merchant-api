@@ -6,3 +6,4 @@ docs
 vendor
 composer.lock
 composer.phar
+src/Be2bill/Api/DirectLinkClient.php.bak
