@@ -558,6 +558,54 @@ class Be2bill_Api_DirectLinkClient
     }
 
     /**
+     * This method is used to void last operation of a transaction
+     *
+     * Usage example:
+     * * ```php
+     * $api = Be2bill_Api_ClientBuilder::buildSandboxDirectLinkClient('IDENTIFIER', 'PASSWORD');
+     *
+     * $result = $api->void(
+     *  'A123',
+     *  'order_123',
+     *  'sample void'
+     * );
+     *
+     * ```
+     *
+     * @api
+     * @param string $transactionId The transaction id to void
+     * @param string $orderId The orderid (should be unique by transaction, but no unicity check are performed)
+     * @param string $description The transaction description
+     * @param array $options
+     * @return array The result array. Will look like:
+     * ```php
+     * [
+     *  'CODE' => '0000',
+     *  'MESSAGE' => 'Transaction succeded',
+     *  'OPERATIONTYPE' => 'refund',
+     *  'ORDERID' => 'order_13213',
+     *  'TRANSACTIONID' => 'A123',
+     *  'DESCRIPTOR' => 'shop'
+     * ]
+     * ```
+     */
+    public function void($transactionId, $orderId, $description, array $options = array())
+    {
+        $params = $options;
+
+        $params['IDENTIFIER']    = $this->identifier;
+        $params['OPERATIONTYPE'] = 'void';
+        $params['DESCRIPTION']   = $description;
+        $params['TRANSACTIONID'] = $transactionId;
+        $params['VERSION']       = $this->getVersion($options);
+        $params['ORDERID']       = $orderId;
+
+        $params['HASH'] = $this->hash($params);
+
+        return $this->requests($this->getDirectLinkUrls(), $params);
+    }
+
+    /**
      * This method is used to refund a transaction
      *
      * Usage example:
